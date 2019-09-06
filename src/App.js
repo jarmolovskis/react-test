@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import classes from './App.css';
 import Person from './Person/Person';
 
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
+
 
 
 class App extends Component {
@@ -55,13 +57,16 @@ class App extends Component {
       persons = (
         <div>
           {this.state.persons.map((person, index) => {
-            return <Person
-              name={person.name}
-              age={person.age}
-              click={this.deletePersonHandler.bind(this, index)}
-              changed={(event) => this.nameChangedHandler(event, person.id)}
-              key={person.id}
-            >My hobbies: Hiking</Person>
+            return (
+            <ErrorBoundary key={person.id}>
+              <Person
+                name={person.name}
+                age={person.age}
+                click={this.deletePersonHandler.bind(this, index)}
+                changed={(event) => this.nameChangedHandler(event, person.id)}
+              >My hobbies: Hiking</Person>
+            </ErrorBoundary>
+            )
           })}
 
           </div>
@@ -80,8 +85,8 @@ class App extends Component {
       assignedClasses.push(classes.bold);
     }
 
-
     return (
+
         <div className={classes.App}>
           <h1>Header text</h1>
           <p className={assignedClasses.join(' ')}>Paragraph text</p>
